@@ -53,7 +53,7 @@ def streamlit_app():
         trial_num = st.slider("Trial Frame:", 1, len(trial_frames), 1)
         trial_frame = trial_frames[trial_num - 1]
 
-        threshold = float(st.text_input('Threshold (STD):', value='6.0'))
+        threshold = float(st.text_input('Threshold (STD):', value='3.5'))
         polarity = int(st.text_input('Spike Polarity:', value=-1))
 
         sort_data.update({
