@@ -14,7 +14,7 @@ def run_sort_analyzer(sort_data):
     sorting = sort_data["sorting"]
 
     parent_dir = Path(recording_path).parent
-    analysis_path = parent_dir / "si_analysis"
+    analysis_path = parent_dir / "sorting" / "si_analysis"
 
     if analysis_path.exists():
         shutil.rmtree(analysis_path)

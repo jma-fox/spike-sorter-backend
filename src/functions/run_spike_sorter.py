@@ -14,7 +14,7 @@ def run_spike_sorter(sort_data):
     polarity = sort_data["polarity"]
 
     parent_dir = Path(recording_path).parent
-    sorting_path = str(parent_dir / "si_sorting")
+    sorting_path = str(parent_dir / "sorting" / "si_sorting")
 
     sorting = si.run_sorter(
         sorter_name="mountainsort5",
