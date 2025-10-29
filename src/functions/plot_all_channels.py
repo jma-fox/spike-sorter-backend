@@ -6,10 +6,6 @@ import streamlit as st
 def plot_all_channels(sort_data):
     recording = sort_data["recording"]
     trial_frame = sort_data["trial_frame"]
-    drop_channels = sort_data["drop_channels"]
-
-    if drop_channels:
-        recording = recording.remove_channels(drop_channels)
 
     fig, ax = plt.subplots()
 

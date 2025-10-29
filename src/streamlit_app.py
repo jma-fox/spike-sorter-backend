@@ -17,13 +17,13 @@ def streamlit_app():
         st.session_state['sort_data'] = None
 
     task_file_path = st.text_input("Enter path to task file:", "")
-    recording_path = st.text_input("Enter path to recording:", "")
+    recording_path = st.text_input("Enter path to SI recording:", "")
 
     st.write("")
 
     event_name = st.text_input("Event Name:", value='gabors_on_time')
-    frame_start = float(st.text_input("Frame Start (s):", value='-0.5'))
-    frame_end = float(st.text_input("Frame End (s):", value='1.0'))
+    frame_start = float(st.text_input("Frame Start (s):", value='-0.1'))
+    frame_end = float(st.text_input("Frame End (s):", value='0.2'))
 
     st.write("")
 
@@ -45,7 +45,7 @@ def streamlit_app():
 
     st.write("")
 
-    sort_data = st.session_state.get('sort_data', None)
+    sort_data = st.session_state.sort_data
 
     if sort_data is not None:
         trial_frames = sort_data['trial_frames']
@@ -66,6 +66,8 @@ def streamlit_app():
 
         sort_data = plot_per_channel(sort_data)
         sort_data = plot_all_channels(sort_data)
+
+        st.session_state.sort_data = sort_data
 
         st.write("")
 
