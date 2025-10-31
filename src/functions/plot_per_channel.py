@@ -14,6 +14,7 @@ def plot_per_channel(sort_data):
 
     drop_channels = []
     with st.expander("Channel Traces", expanded=True):
+        channel_ids = sorted(channel_ids, reverse=True)
         for channel in channel_ids:
             channel_trace = recording.get_traces(channel_ids=[channel])[::downsample_factor]
             channel_std = np.std(channel_trace)

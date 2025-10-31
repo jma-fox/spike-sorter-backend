@@ -13,7 +13,7 @@ def run_sort_analyzer(sort_data):
     recording = sort_data["recording"]
     sorting = sort_data["sorting"]
 
-    parent_dir = Path(recording_path).parent
+    parent_dir = Path(recording_path).parent.parent
     analysis_path = parent_dir / "sorting" / "si_analysis"
 
     if analysis_path.exists():

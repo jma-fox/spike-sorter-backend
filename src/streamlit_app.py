@@ -1,7 +1,8 @@
 import streamlit as st
 import spikeinterface.full  as si
+import pandas as pd
 
-from functions.get_task_data import get_task_data
+from functions.filter_trial_types import filter_trial_types
 from functions.get_trial_frames import get_trial_frames
 from functions.plot_all_channels import plot_all_channels
 from functions.plot_per_channel import plot_per_channel
@@ -16,8 +17,12 @@ def streamlit_app():
     if 'sort_data' not in st.session_state:
         st.session_state['sort_data'] = None
 
-    task_file_path = st.text_input("Enter path to task file:", "")
-    recording_path = st.text_input("Enter path to SI recording:", "")
+    task_file_path = st.text_input("Task File Path:", "")
+    recording_path = st.text_input("SI Recording Path:", "")
+
+    st.write("")
+
+    filter_trials = st.checkbox("Filter Trials", value=True)
 
     st.write("")
 
@@ -30,7 +35,11 @@ def streamlit_app():
     if st.button("Load Raw Data"):
         recording = si.load(recording_path)
         channel_ids = recording.get_channel_ids()
-        task_data = get_task_data(task_file_path)
+        task_data = pd.read_csv(task_file_path)
+
+        if filter_trials:
+            task_data = filter_trial_types(task_data)
+
         time_range = (frame_start, frame_end)
         trial_frames = get_trial_frames(task_data, time_range, event_name)
 
@@ -53,11 +62,16 @@ def streamlit_app():
         trial_num = st.slider("Trial Frame:", 1, len(trial_frames), 1)
         trial_frame = trial_frames[trial_num - 1]
 
+        sort_data.update({'trial_frame': trial_frame})
+
+        sort_data = plot_all_channels(sort_data)
+
+        st.write("")
+
         threshold = float(st.text_input('Threshold (STD):', value='3.5'))
         polarity = int(st.text_input('Spike Polarity:', value=-1))
 
         sort_data.update({
-            "trial_frame": trial_frame,
             "threshold": threshold,
             "polarity": polarity
         })
@@ -65,9 +79,10 @@ def streamlit_app():
         st.write("")
 
         sort_data = plot_per_channel(sort_data)
-        sort_data = plot_all_channels(sort_data)
 
-        st.session_state.sort_data = sort_data
+        st.write("")
+
+        st.warning('Add channel menu and trace raster for selected channels here.')
 
         st.write("")
 
